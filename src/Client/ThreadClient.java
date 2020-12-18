@@ -32,7 +32,7 @@ public class ThreadClient extends Thread{
 				message = in.readLine();
 				System.out.println(message);
 				
-				// Condition pour éviter d'afficher la grille à chaque fois
+				// Condition pour éviter d'afficher la grille à chaque fois.
 				
 				/*
 				System.out.println("Votre grille est :");
