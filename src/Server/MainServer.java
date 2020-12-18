@@ -6,7 +6,6 @@ public class MainServer {
 public static void main(String[] args) {
 	try {
 		ServerSocket ecoute = new ServerSocket(1500);
-		System.out.println("Serveur");
 		System.out.println("Serveur lancé!");
 		int id=0;	
 		while(true) {

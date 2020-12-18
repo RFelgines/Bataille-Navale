@@ -9,16 +9,13 @@ public class MainClient {
 			Socket s = new Socket("127.0.0.1", 1500);
 			PrintWriter out = new PrintWriter(s.getOutputStream(), true);
 			new ThreadClient(s).start();
-			System.out.println("Client!");
-			System.out.println("Connexion reussie!");
+			System.out.println("Connexion r�ussie!");
 			Scanner sc=new Scanner(System.in);
 			String message="";
-			while (!message.equals("quit")) {
+			while (message!="quit") {
 			message=sc.nextLine();
 			out.println(message);
 			}
-			System.out.println("Bernard");
-			Thread.sleep(1000);
 			sc.close();
 			s.close();
 			} catch(Exception e) {
