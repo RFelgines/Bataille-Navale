@@ -34,7 +34,6 @@ public class Joueur
 		ownGrid = new Grid(10);
 		id = parId;
 		
-		// RAJOUTE PAR MOI
 		allboats = new ArrayList<Boat>();
 		Carrier carrier = new Carrier();
 		Battleship battleship = new Battleship();
@@ -47,7 +46,6 @@ public class Joueur
 		allboats.add(submarine);
 		allboats.add(destroyer);
 		
-		// FIN
 	}
 	
 	public void SetOut(PrintWriter parOut)
@@ -60,31 +58,63 @@ public class Joueur
 		in = parIn;
 	}
 	
-	public void AddBoat(Boat boat, int x, int y) // Tu voulais faire quoi dans c'te fonction ?
+	public void AddBoat(Boat boat)
 	{
-		boats.add(boat);
-		ownGrid.Placement(x,  y,  boat);
-	}
-	
-	public void AddBoats() 
-	{
-		for(Boat boat : allboats) 
-		{
-			// AddBoat(boat, x, y);
-		}
-	}
-	
-	public void AskBoatPlacement(Boat boat) 
-	{ 
 		try 
 		{
+			
+			out.println("Veuillez placer le bateau de taille " + boat.GetSize() + " au format colonne, ligne, vertical (y/n)");
+			String message=in.readLine();
+			String splitmessage[] = message.split(",");
+			int x = Integer.parseInt(splitmessage[0]);
+			int y = Integer.parseInt(splitmessage[1]);
+			String vertical = splitmessage[2];
+			
+			if (vertical.equals("y"))
+			{
+				boat.SetVertical(true);
+			}
+			
+			else
+			{
+				boat.SetVertical(false);
+			}
+			
+			boats.add(boat);
+			ownGrid.Placement(x,  y,  boat);
+		}
+		catch (IOException e) {};
+		
+	}
+	
+	
+	public void Play() 
+	{
+		try 
+		{
+			out.println("Veuillez indiquer une position où tirer");
 			String message=in.readLine();
 			String positionInText[] = message.split(",");
 			int x = Integer.parseInt(positionInText[0]);
 			int y = Integer.parseInt(positionInText[1]);
+			adversaryGrid.Shoot(x,y);
 		}
 		catch (IOException e) {};
-
+	}
+	
+	/*
+	public void AddBoats() 
+	{
+		
+		for(Boat boat : allboats) 
+		{
+			AskBoatPlacement(boat);
+			AddBoat(boat, x, y);
+		}
+	}
+	
+	public void AskBoatPlacement(Boat boat) 
+	{
 
 	}
 	
@@ -92,7 +122,7 @@ public class Joueur
 	{
 			AskBoatPlacement(boat);
 			
-	}
+	}*/
 	
 
 	

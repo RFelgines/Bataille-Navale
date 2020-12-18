@@ -21,6 +21,12 @@ abstract public class Boat
 	{
 		return IsVertical;
 	}
+	
+	public void SetVertical(boolean isvertical) 
+	{
+		IsVertical = isvertical;
+	}
+	
 	public void Setlife(int life)
 	{
 		Life = life;

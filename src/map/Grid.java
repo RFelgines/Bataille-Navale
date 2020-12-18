@@ -30,7 +30,7 @@ public class Grid
 	{
 		for(int i = 0; i< boat.GetSize(); ++i)
 		{
-			if(x < 0 || y < 0 || x >= _grid.size() || y >= _grid.get(0).size() || _grid.get(x).get(y).GetContainsBoat())
+			if(x < 0 || y < 0 || x >= _grid.size() || y >= _grid.get(0).size() || _grid.get(x).get(y).GetContainsBoat()) // Verifier, peut être size() -1 limite
 				return false;
 	
 			if(boat.IsVertical())
