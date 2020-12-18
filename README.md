@@ -14,3 +14,6 @@ Pour le placement des bateaux on vérifie deux choses :
 
 Après chaque tir on vérifie si la partie est terminée ou pas. Pour cela on vérifie après chaque tir si il existe encore des bateaux avec une vie non nulle.
 C'est la classe joueur qui s'occupe de placer les bateaux et de vérifier si la partie est terminée ou pas, pour ça on regarde s'il reste de la vie à un des bateaux
+
+
+PS : le programme est dans master et non dans main
