@@ -12,7 +12,8 @@ public class ThreadClient extends Thread{
 		in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 	}
 	
-	public void Sending(){
+	public void Sending()
+	{
 		try {
 			String message = "";
 			while (message.equals("")) {
@@ -22,6 +23,9 @@ public class ThreadClient extends Thread{
 			}catch (IOException e) {};
 	}
 	
-	public void Listening
+	public void Listening()
+	{
+		
+	}
 	
 }
