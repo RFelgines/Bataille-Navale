@@ -63,7 +63,7 @@ public class ThreadChat extends Thread
 			Submarine submarine = new Submarine();
 			Destroyer destroyer = new Destroyer();
 			
-			while(!gamephase) 
+			/*while(!gamephase) 
 			{
 				out.println("Place un bateau en suivant le format colonne, ligne");
 				String message=in.readLine();
@@ -74,7 +74,7 @@ public class ThreadChat extends Thread
 				out.println("Tu as placé un bateau à la position" + x + " " + y);
 				gamephase = true;
 				
-			}
+			}*/
 		}catch (Exception e) {}
 	}
 	
@@ -83,11 +83,12 @@ public class ThreadChat extends Thread
 		boolean isgameover = false;
 		while(!isgameover) 
 		{
-			out.println("Place un bateau en suivant le format colonne, ligne");
+			/*out.println("Place un bateau en suivant le format colonne, ligne");
 			String message=in.readLine();
 			String positionInText[] = message.split(",");
 			int x = Integer.parseInt(positionInText[0]);
 			int y = Integer.parseInt(positionInText[1]);
+			*/
 		}
 	}
 }

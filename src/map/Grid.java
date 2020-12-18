@@ -43,7 +43,7 @@ public class Grid
 	}
 	
 	public void Placement(int x, int y, Boat boat)
-	// Place le bateau sur la grille à condition que le placement soit valide été validé
+	// Place le bateau sur la grille à condition que le placement soit valide
 	{
 		if (!IsPlacementValid(x, y, boat)) 
 		{
