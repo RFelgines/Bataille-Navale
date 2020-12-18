@@ -9,7 +9,7 @@ public class MainClient {
 			Socket s = new Socket("127.0.0.1", 1500);
 			PrintWriter out = new PrintWriter(s.getOutputStream(), true);
 			new ThreadClient(s).start();
-			System.out.println("Connexion r�ussie!");
+			System.out.println("Connexion reussie!");
 			Scanner sc=new Scanner(System.in);
 			String message="";
 			while (message!="quit") {
@@ -21,6 +21,6 @@ public class MainClient {
 			} catch(Exception e) {
 			// Traitement d erreur
 			}
-
+	
 	}
 }
