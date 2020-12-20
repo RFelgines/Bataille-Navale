@@ -4,23 +4,30 @@ import java.util.Scanner;
 import java.io.*;
 
 public class MainClient {
-	public static void main(String[] args) {
-		try {
+	public static void main(String[] args)
+	{
+		try
+		{
 			Socket s = new Socket("127.0.0.1", 1500);
 			PrintWriter out = new PrintWriter(s.getOutputStream(), true);
 			new ThreadClient(s).start();
+			
 			System.out.println("Connexion reussie!");
 			Scanner sc=new Scanner(System.in);
 			String message="";
-			while (message!="quit") {
-			message=sc.nextLine();
-			out.println(message);
+			
+			while (message!="quit")
+			{
+				message=sc.nextLine();
+				out.println(message);
 			}
+			
 			sc.close();
 			s.close();
-			} catch(Exception e) {
+		}
+		catch(Exception e)
+		{
 			// Traitement d erreur
-			}
-	
+		}
 	}
 }

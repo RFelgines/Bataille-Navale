@@ -1,5 +1,6 @@
 package map;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,29 +65,35 @@ public class Grid
 	
 	public void Shoot(int x, int y) // Tire sur une case à condition qu'elle n'ait pas déjà été touchée
 	{
-		if (_grid.get(x).get(y).GetIsShot()) // Case déjà touchée
+		if (IsShootValid(x, y))
 		{
-			// throw;
-			return;
+			_grid.get(x).get(y).SetIsShot(true);
 		}
-		if ( x<0 || y<0 || x>_grid.size() || y>_grid.size()) 
-		{
-			return;
-		}
-		
-		_grid.get(x).get(y).SetIsShot(true);
-		
 	}
 	
-	public void Display() // Affiche la grille
+	public boolean IsShootValid(int x, int y) // Tire sur une case à condition qu'elle n'ait pas déjà été touchée
+	{
+		if (_grid.get(x).get(y).GetIsShot()) // Case déjà touchée
+		{
+			return false;
+		}
+		if ( x < 0 || y < 0 || x >= _grid.size() || y >= _grid.size()) 
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	public void Display(PrintWriter parOut) // Affiche la grille
 	{
 		for(List<Case> ligne : _grid)
 		{
 			for(Case myCase : ligne)
 			{
-				myCase.Display();
+				myCase.Display(parOut);
 			}
-			System.out.println("");
+			parOut.println("");
+			
 		}
 	}
 

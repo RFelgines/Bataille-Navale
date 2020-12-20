@@ -4,6 +4,6 @@ public class Cruiser extends Boat
 {
 	public Cruiser()
 	{
-		super(5);
+		super(2);
 	}
 }

@@ -13,82 +13,81 @@ import map.Cruiser;
 import map.Destroyer;
 import map.Submarine;
 
+enum GamePhase {PLACEMENT, GAMERUNNING, GAMEENDED}; 
+
 public class ThreadChat extends Thread
 {	
 	int id;
-	static PrintWriter[] outs=new PrintWriter[100]; 
 	static ArrayList<Joueur> joueurs;
+	GamePhase gamePhase;
 	
-	public ThreadChat(int id, Socket client) {
-
+	public ThreadChat(int id, Socket client)
+	{
 		joueurs = new ArrayList<Joueur>();
 		try {
 			Joueur newJoueur = new Joueur(joueurs.size());
 			joueurs.add(newJoueur);
+			
 			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			newJoueur.SetIn(in);
+			
 			PrintWriter out = new PrintWriter(client.getOutputStream(), true);
 			newJoueur.SetOut(out);
+			
 			out.println("Id="+id+"\n");
-			outs[id] = out;
+			
+			gamePhase = GamePhase.PLACEMENT;
 		}
 		catch (Exception e) {}
 	}
 	
-	public void run() {
-		try {
-		while (true) {
-			PlaceBoats();
-			Play();
-			/*String message=in.readLine();
-			message=id+":"+message;
-			System.out.println(message);
-			for (int i=0;i<nbid;i++) {
-				if (i!=id)outs[i].println(message);
-			}*/
-		}
-		}catch (Exception e) {}
-	}
-	
-	
-	
-	public void PlaceBoats() 
+	public void run()
 	{
-		boolean gamephase = false;
-		try 
+		try
 		{
-			Carrier carrier = new Carrier();
-			Battleship battleship = new Battleship();
-			Cruiser cruiser = new Cruiser();
-			Submarine submarine = new Submarine();
-			Destroyer destroyer = new Destroyer();
-			
-			/*while(!gamephase) 
+			if(gamePhase == GamePhase.PLACEMENT)
 			{
-				out.println("Place un bateau en suivant le format colonne, ligne");
-				String message=in.readLine();
-				out.println("René");
-				String positionInText[] = message.split(",");
-				int x = Integer.parseInt(positionInText[0]);
-				int y = Integer.parseInt(positionInText[1]);
-				out.println("Tu as placé un bateau à la position" + x + " " + y);
-				gamephase = true;
+				for(Joueur joueur : joueurs)
+				{
+					joueur.AddAllBoats();
+				}
+				gamePhase = GamePhase.GAMERUNNING;
 				
-			}*/
-		}catch (Exception e) {}
+				for(Joueur joueur : joueurs)
+				{
+					joueur.Warning("Tous les joueurs ont placés leurs bateaux");
+				}
+				
+			}
+			if(gamePhase == GamePhase.GAMERUNNING)
+			{
+				for(Joueur joueur : joueurs)
+				{
+					joueur.Warning("Nouveau tour de jeu");
+					joueur.Shoot();
+				}
+				if(IsGameOver())
+				{
+					gamePhase = GamePhase.GAMEENDED;
+				}
+			}
+			if(gamePhase == GamePhase.GAMEENDED)
+			{
+				//Dire au joueur que c'est fini
+			}
+		}
+		catch (Exception e) {}
 	}
 	
-	public void Play() 
+	private boolean IsGameOver()
 	{
-		boolean isgameover = false;
-		while(!isgameover) 
+		for(Joueur joueur : joueurs)
 		{
-			/*out.println("Place un bateau en suivant le format colonne, ligne");
-			String message=in.readLine();
-			String positionInText[] = message.split(",");
-			int x = Integer.parseInt(positionInText[0]);
-			int y = Integer.parseInt(positionInText[1]);
-			*/
+			if(joueur.IsGameOver())
+			{
+				return true;
+			}
 		}
+		return false;
 	}
 }

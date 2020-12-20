@@ -20,11 +20,13 @@ import map.Destroyer;
 public class Joueur 
 {
 	private static List<Boat> boats;
-	private static List<Boat> allboats;
 	private String IP;
 	private Grid ownGrid;
 	private Grid adversaryGrid;
 	private int id;
+	private int currentXTarget;
+	private int currentYTarget;
+	
 	BufferedReader in;
 	PrintWriter out;
 	
@@ -32,20 +34,23 @@ public class Joueur
 	{
 		boats = new ArrayList<Boat>();
 		ownGrid = new Grid(10);
-		id = parId;
+		adversaryGrid = new Grid(10);
+		id = parId;		
 		
-		allboats = new ArrayList<Boat>();
 		Carrier carrier = new Carrier();
 		Battleship battleship = new Battleship();
 		Cruiser cruiser = new Cruiser();
 		Submarine submarine = new Submarine();
 		Destroyer destroyer = new Destroyer();
-		allboats.add(carrier);
-		allboats.add(battleship);
-		allboats.add(cruiser);
-		allboats.add(submarine);
-		allboats.add(destroyer);
 		
+		boats.add(carrier);
+		/*boats.add(battleship);
+		boats.add(cruiser);
+		boats.add(submarine);
+		boats.add(destroyer);*/
+		
+		currentXTarget = -1;
+		currentYTarget = -1;
 	}
 	
 	public void SetOut(PrintWriter parOut)
@@ -58,13 +63,12 @@ public class Joueur
 		in = parIn;
 	}
 	
-	public void AddBoat(Boat boat)
+	public void AskBoatPlacement(Boat boat)
 	{
 		try 
 		{
-			
 			out.println("Veuillez placer le bateau de taille " + boat.GetSize() + " au format colonne, ligne, vertical (y/n)");
-			String message=in.readLine();
+			String message = in.readLine();
 			String splitmessage[] = message.split(",");
 			int x = Integer.parseInt(splitmessage[0]);
 			int y = Integer.parseInt(splitmessage[1]);
@@ -79,52 +83,78 @@ public class Joueur
 			{
 				boat.SetVertical(false);
 			}
-			
-			boats.add(boat);
-			ownGrid.Placement(x,  y,  boat);
+
+			boat.SetX(x);
+			boat.SetY(y);
 		}
 		catch (IOException e) {};
-		
 	}
 	
+	public void Shoot()
+	{
+		do
+		{
+			out.println("adversaryGrid : ");
+			adversaryGrid.Display(out);
+			AskShoot();
+		} while(!adversaryGrid.IsShootValid(currentXTarget, currentYTarget));	
+		adversaryGrid.Shoot(currentXTarget, currentYTarget);
+
+		currentXTarget = -1;
+		currentYTarget = -1;
+	}
+	
+	public void AskShoot()
+	{
+		try 
+		{
+			out.println("Tue tires ou fdp ?");
+			String message = in.readLine();
+			String splitmessage[] = message.split(",");
+			currentXTarget = Integer.parseInt(splitmessage[0]);
+			currentYTarget = Integer.parseInt(splitmessage[1]);
+		}
+		catch (IOException e) {};
+	}
+	
+	public void AddBoat(Boat boat)
+	{
+		boat.SetIsOnBoard(true);
+		ownGrid.Placement(boat.GetX(),  boat.GetY(),  boat);
+	}
+	
+	public void AddAllBoats()
+	{
+		for(Boat boat : boats)
+		{
+			while(!boat.GetIsOnBoard())
+			{
+				out.println("ownGrid : ");
+				ownGrid.Display(out);
+				AskBoatPlacement(boat);
+				AddBoat(boat);
+			}
+		}
+	}
 	
 	public void Play() 
 	{
 		try 
 		{
 			out.println("Veuillez indiquer une position où tirer");
-			String message=in.readLine();
+			String message = in.readLine();
 			String positionInText[] = message.split(",");
 			int x = Integer.parseInt(positionInText[0]);
 			int y = Integer.parseInt(positionInText[1]);
 			adversaryGrid.Shoot(x,y);
 		}
 		catch (IOException e) {};
-	}
+	}	
 	
-	/*
-	public void AddBoats() 
+	public void Warning(String parMessage)
 	{
-		
-		for(Boat boat : allboats) 
-		{
-			AskBoatPlacement(boat);
-			AddBoat(boat, x, y);
-		}
+		out.println(parMessage);
 	}
-	
-	public void AskBoatPlacement(Boat boat) 
-	{
-
-	}
-	
-	public void PlaceBoat(Boat boat)
-	{
-			AskBoatPlacement(boat);
-			
-	}*/
-	
-
 	
 	public boolean IsGameOver() // Vérifie si la partie est terminée
 	{

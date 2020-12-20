@@ -1,8 +1,1 @@
-/Battleship.class
-/Boat.class
-/Carrier.class
-/Case.class
-/Cruiser.class
-/Destroyer.class
-/Grid.class
-/Submarine.class
+*.class

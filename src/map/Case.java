@@ -1,5 +1,7 @@
 package map;
 
+import java.io.PrintWriter;
+
 public class Case {
 	private boolean IsShot;
 	private boolean ContainsBoat;
@@ -35,18 +37,18 @@ public class Case {
 		return idBoat;
 	}
 	
-	public void Display()
+	public void Display(PrintWriter parOut)
 	{
 		if(IsShot && ContainsBoat)
-			System.out.printf("*");
+			parOut.printf("*");
 
 		if(IsShot && !ContainsBoat)
-			System.out.printf("0");
+			parOut.printf("0");
 
 		if(!IsShot && ContainsBoat)
-			System.out.printf("?");
+			parOut.printf("?");
 
 		if(!IsShot && !ContainsBoat)
-			System.out.printf("~");
+			parOut.printf("~");
 	}
 }
