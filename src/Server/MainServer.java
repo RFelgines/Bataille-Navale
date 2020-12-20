@@ -9,7 +9,7 @@ public class MainServer
 		try
 		{
 			ServerSocket ecoute = new ServerSocket(1500);
-			System.out.println("Serveur lance!");
+			System.out.printf("Serveur lance!");
 			
 			int id=0;	
 			while(true)
@@ -21,7 +21,7 @@ public class MainServer
 		}
 		catch(Exception e)
 		{
-			// Traitement d erreur
+			System.out.println("Toto");
 		}
 	}
 }

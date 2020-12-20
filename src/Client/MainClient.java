@@ -25,6 +25,7 @@ public class MainClient {
 			sc.close();
 			s.close();
 		}
+		
 		catch(Exception e)
 		{
 			// Traitement d erreur

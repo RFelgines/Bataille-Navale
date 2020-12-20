@@ -19,7 +19,7 @@ import map.Destroyer;
 
 public class Joueur 
 {
-	private static List<Boat> boats;
+	private List<Boat> boats;
 	private String IP;
 	private Grid ownGrid;
 	private Grid adversaryGrid;
@@ -35,6 +35,7 @@ public class Joueur
 		boats = new ArrayList<Boat>();
 		ownGrid = new Grid(10);
 		adversaryGrid = new Grid(10);
+		
 		id = parId;		
 		
 		Carrier carrier = new Carrier();
@@ -67,23 +68,20 @@ public class Joueur
 	{
 		try 
 		{
-			out.println("Veuillez placer le bateau de taille " + boat.GetSize() + " au format colonne, ligne, vertical (y/n)");
-			String message = in.readLine();
-			String splitmessage[] = message.split(",");
+			String splitmessage[];
+			do
+			{				
+				out.println("Veuillez placer le bateau de taille " + boat.GetSize() + " au format colonne, ligne, vertical (y/n)");
+				String message = in.readLine();
+				splitmessage = message.split(",");
+			} while(splitmessage.length != 3);
+			
 			int x = Integer.parseInt(splitmessage[0]);
 			int y = Integer.parseInt(splitmessage[1]);
 			String vertical = splitmessage[2];
 			
-			if (vertical.equals("y"))
-			{
-				boat.SetVertical(true);
-			}
+			boat.SetVertical(vertical.equals("y"));
 			
-			else
-			{
-				boat.SetVertical(false);
-			}
-
 			boat.SetX(x);
 			boat.SetY(y);
 		}
@@ -95,9 +93,11 @@ public class Joueur
 		do
 		{
 			out.println("adversaryGrid : ");
-			adversaryGrid.Display(out);
+			adversaryGrid.Display(out, false);
 			AskShoot();
-		} while(!adversaryGrid.IsShootValid(currentXTarget, currentYTarget));	
+		} while(!adversaryGrid.IsShootValid(currentXTarget, currentYTarget));
+
+		out.println("Je tire en " + currentXTarget + " " + currentYTarget);
 		adversaryGrid.Shoot(currentXTarget, currentYTarget);
 
 		currentXTarget = -1;
@@ -108,7 +108,7 @@ public class Joueur
 	{
 		try 
 		{
-			out.println("Tue tires ou fdp ?");
+			out.println("Indiquer une position de tir :");
 			String message = in.readLine();
 			String splitmessage[] = message.split(",");
 			currentXTarget = Integer.parseInt(splitmessage[0]);
@@ -129,27 +129,14 @@ public class Joueur
 		{
 			while(!boat.GetIsOnBoard())
 			{
-				out.println("ownGrid : ");
-				ownGrid.Display(out);
 				AskBoatPlacement(boat);
 				AddBoat(boat);
+				
+				out.println("ownGrid : ");
+				ownGrid.Display(out, true);				
 			}
 		}
 	}
-	
-	public void Play() 
-	{
-		try 
-		{
-			out.println("Veuillez indiquer une position où tirer");
-			String message = in.readLine();
-			String positionInText[] = message.split(",");
-			int x = Integer.parseInt(positionInText[0]);
-			int y = Integer.parseInt(positionInText[1]);
-			adversaryGrid.Shoot(x,y);
-		}
-		catch (IOException e) {};
-	}	
 	
 	public void Warning(String parMessage)
 	{
@@ -168,4 +155,5 @@ public class Joueur
 		
 		return true;
 	}
+	
 }

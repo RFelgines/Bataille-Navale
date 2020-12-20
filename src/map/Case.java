@@ -37,7 +37,7 @@ public class Case {
 		return idBoat;
 	}
 	
-	public void Display(PrintWriter parOut)
+	public void Display(PrintWriter parOut, boolean isOwnerGrid)
 	{
 		if(IsShot && ContainsBoat)
 			parOut.printf("*");
@@ -45,10 +45,26 @@ public class Case {
 		if(IsShot && !ContainsBoat)
 			parOut.printf("0");
 
-		if(!IsShot && ContainsBoat)
+		if(isOwnerGrid && !IsShot && ContainsBoat)
 			parOut.printf("?");
 
 		if(!IsShot && !ContainsBoat)
 			parOut.printf("~");
 	}
+	
+	public void DebugDisplay()
+	{
+		if(IsShot && ContainsBoat)
+			System.out.printf("*");
+
+		if(IsShot && !ContainsBoat)
+			System.out.printf("0");
+
+		if(!IsShot && ContainsBoat)
+			System.out.printf("?");
+
+		if(!IsShot && !ContainsBoat)
+			System.out.printf("~");
+	}
+	
 }

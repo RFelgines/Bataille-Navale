@@ -4,11 +4,9 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-//import server.Joueur;
 public class Grid
 {
-	
-	private static List<List<Case>> _grid;
+	private List<List<Case>> _grid;
 
 	public Grid(int size)
 	{
@@ -84,17 +82,29 @@ public class Grid
 		return true;
 	}
 	
-	public void Display(PrintWriter parOut) // Affiche la grille
+	public void Display(PrintWriter parOut, boolean isOwnerGrid) // Affiche la grille
 	{
 		for(List<Case> ligne : _grid)
 		{
 			for(Case myCase : ligne)
 			{
-				myCase.Display(parOut);
+				myCase.Display(parOut, isOwnerGrid);
 			}
 			parOut.println("");
 			
 		}
+	}
+	
+	public void DebugDisplay() 
+	{
+		for(List<Case> ligne : _grid)
+		{
+			for(Case myCase : ligne)
+			{
+				myCase.DebugDisplay();
+			}
+			System.out.println("");
+		}	
 	}
 
 }

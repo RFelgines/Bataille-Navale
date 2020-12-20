@@ -13,12 +13,12 @@ import map.Cruiser;
 import map.Destroyer;
 import map.Submarine;
 
-enum GamePhase {PLACEMENT, GAMERUNNING, GAMEENDED}; 
+enum GamePhase {WAITING,PLACEMENT, GAMERUNNING, GAMEENDED}; 
 
 public class ThreadChat extends Thread
 {	
 	int id;
-	static ArrayList<Joueur> joueurs;
+	ArrayList<Joueur> joueurs;
 	GamePhase gamePhase;
 	
 	public ThreadChat(int id, Socket client)
@@ -36,7 +36,7 @@ public class ThreadChat extends Thread
 			
 			out.println("Id="+id+"\n");
 			
-			gamePhase = GamePhase.PLACEMENT;
+			gamePhase = GamePhase.WAITING;
 		}
 		catch (Exception e) {}
 	}
@@ -45,6 +45,17 @@ public class ThreadChat extends Thread
 	{
 		try
 		{
+			if(gamePhase == GamePhase.WAITING)
+			{
+				do
+				{					
+					for(Joueur joueur : joueurs)
+					{
+						joueur.Warning("En attente d'un autre joueur.");
+					}
+					sleep(1000);
+				} while(joueurs.size() != 2);
+			}
 			if(gamePhase == GamePhase.PLACEMENT)
 			{
 				for(Joueur joueur : joueurs)
@@ -57,23 +68,26 @@ public class ThreadChat extends Thread
 				{
 					joueur.Warning("Tous les joueurs ont placés leurs bateaux");
 				}
-				
 			}
 			if(gamePhase == GamePhase.GAMERUNNING)
 			{
-				for(Joueur joueur : joueurs)
-				{
-					joueur.Warning("Nouveau tour de jeu");
-					joueur.Shoot();
-				}
-				if(IsGameOver())
-				{
-					gamePhase = GamePhase.GAMEENDED;
-				}
+				do
+				{					
+					for(Joueur joueur : joueurs)
+					{
+						joueur.Warning("Nouveau tour de jeu");
+						joueur.Shoot();
+					}
+				} while(!IsGameOver());
+				
+				gamePhase = GamePhase.GAMEENDED;
 			}
 			if(gamePhase == GamePhase.GAMEENDED)
 			{
-				//Dire au joueur que c'est fini
+				for(Joueur joueur : joueurs)
+				{
+					joueur.Warning("Fin de la partie");
+				}
 			}
 		}
 		catch (Exception e) {}
